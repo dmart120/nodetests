@@ -5,7 +5,20 @@ var querystring = require("querystring"),
 function start(response) {
     console.log("Request handler 'start' was called.");
     
-    var body = '<html>' + 
+    var body = fs.readFileSync('index.html');  //reading in a buffer
+
+
+    fs.readFile('index.html', function(err, data) {
+	    if (err) {
+		console.log(data);
+	    } else {
+		response.writeHead(200, {"Content-Type": "text/html"});
+		response.write(data);
+		response.end();
+	    }
+	});
+
+    /*    var body = '<html>' + 
 	'<head>' + 
 	'<meta http-equiv="Content-Type" context="text/html; charset=UTF-8" />' +
 	'</head>' + 
@@ -15,11 +28,11 @@ function start(response) {
 	'<input type="submit" value="Upload File" />' +
 	'</form>' + 
 	'</body>' + 
-	'</html>';
+	'</html>';*/
     
-    response.writeHead(200, {"Content-Type": "text/html"});
-    response.write(body);
-    response.end();
+    //response.writeHead(200, {"Content-Type": "text/html"});
+    //response.write(body.toString());
+    //response.end();
 }
  
 function upload(response, request) {
